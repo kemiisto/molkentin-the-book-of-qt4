@@ -18,9 +18,9 @@ int main(int argc, char* argv[]) {
     mainLayout->addWidget(spinBox);
     mainLayout->addWidget(slider);
 
-    QObject::connect(spinBox, &QSpinBox::valueChanged,
+    QObject::connect(spinBox, qOverload<int>(&QSpinBox::valueChanged),
                      label, qOverload<int>(&QLabel::setNum));
-    QObject::connect(spinBox, &QSpinBox::valueChanged,
+    QObject::connect(spinBox, qOverload<int>(&QSpinBox::valueChanged),
                      slider, &QSlider::setValue);
     QObject::connect(slider, &QSlider::valueChanged,
                      label, qOverload<int>(&QLabel::setNum));

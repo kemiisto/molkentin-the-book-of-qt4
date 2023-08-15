@@ -11,9 +11,16 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+option(USE_QT5 "Enable this if you want to use Qt 5, instead of Qt 6" OFF)
 
+if(USE_QT5)
+    message(STATUS "Using Qt 5")
+    find_package(QT NAMES Qt5 REQUIRED COMPONENTS Widgets)
+else()
+    message(STATUS "Using Qt 6")
+    find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets)
+endif()
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 macro(SUBDIRLIST result curdir pattern)
     file(GLOB children RELATIVE ${curdir} ${curdir}/${pattern})
