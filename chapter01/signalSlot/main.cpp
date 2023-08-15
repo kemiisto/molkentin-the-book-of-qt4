@@ -8,5 +8,5 @@ int main(int argc, char* argv[]) {
     button.show();
     QObject::connect(&button, &QPushButton::clicked, &a, &QApplication::quit);
 
-    return a.exec();
+    return QApplication::exec();
 }
