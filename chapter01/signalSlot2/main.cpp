@@ -18,12 +18,22 @@ int main(int argc, char* argv[]) {
     mainLayout->addWidget(spinBox);
     mainLayout->addWidget(slider);
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 7, 0)
+    QObject::connect(spinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+                     label, static_cast<void (QLabel::*)(int)>(&QLabel::setNum));
+    QObject::connect(spinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+                     slider, &QSlider::setValue);
+    QObject::connect(slider, &QSlider::valueChanged,
+                     label, static_cast<void (QLabel::*)(int)>(&QLabel::setNum));
+    
+#else
     QObject::connect(spinBox, qOverload<int>(&QSpinBox::valueChanged),
                      label, qOverload<int>(&QLabel::setNum));
     QObject::connect(spinBox, qOverload<int>(&QSpinBox::valueChanged),
                      slider, &QSlider::setValue);
     QObject::connect(slider, &QSlider::valueChanged,
                      label, qOverload<int>(&QLabel::setNum));
+#endif    
     QObject::connect(slider, &QSlider::valueChanged,
                      spinBox, &QSpinBox::setValue);
 
